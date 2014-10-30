@@ -25,12 +25,12 @@ def swap(melanogaster):
                for j in range(i, location + 1):
                    temlist.append(melanogaster[j])
 
-               for l in reversed(temlist):
-                   reversetemlist.append(l)
+               for k in reversed(temlist):
+                   reversetemlist.append(k)
 
                indexx = 0
-               for k in range (len(temlist)):
-                    melanogaster[i+k] = reversetemlist[indexx]
+               for l in range (len(temlist)):
+                    melanogaster[i+l] = reversetemlist[indexx]
                     indexx += 1
                swaps += 1
 
