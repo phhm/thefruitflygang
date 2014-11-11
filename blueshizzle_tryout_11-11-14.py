@@ -15,7 +15,12 @@ from Tkinter import *
 def initlist(melanogaster, temlist):
     
     w.after(0, w.delete("rectangles", "text", "swaptangle"))
- 
+    print temlist, "temlist"
+    print melanogaster, "Melanogaster"
+    print melanogaster.index(temlist[0]), "MelanogasterIndextemlist0"
+    print len(temlist), "len_temlist"
+   
+     
     for i in range(0,len(melanogaster)): 
         color = "#"
         hexadecimal = str(hex(int((15* melanogaster[i])/len(melanogaster))))
@@ -25,14 +30,11 @@ def initlist(melanogaster, temlist):
 
         w.create_rectangle(100 + i * 1000/len(melanogaster), 300, 200 + i*1000/len(melanogaster), 400,fill = color , tags = "rectangles")
         w.create_text(120 + i *1000/len(melanogaster), 350, fill = "red", text = melanogaster[i], tags = "text")
+        w.create_rectangle((100 + (1000/len(melanogaster)* melanogaster.index(temlist[0]))), 300, (100 + (1000/len(melanogaster)* melanogaster.index(temlist[0]))) + (1000/len(melanogaster) * len(temlist)), 400, outline = "blue", tags = "swaptangle", width = 8)
 ##        print melanogaster, "MELANO"
 ##        print temlist, "This is temlist"
 ##        print melanogaster[temlist[0]], "This is melanogaster temlist 0"
 
-    print temlist
-    print len(temlist)
-    print melanogaster.index(temlist[0]), "MindexTemlist0"
-    w.create_rectangle((100 + (1000/len(melanogaster)* (melanogaster.index(temlist[0]) - 1))), 300, 100 + (1000/len(melanogaster) * len(temlist)), 400, outline = "blue", tags = "swaptangle", width = 5)  
     swapscounter = "swaps =",  swaps
     var.set(swapscounter)
     master.update_idletasks()
@@ -58,12 +60,12 @@ def swap(melanogaster):
         
         location = 0
 
+        
         # check if values corresond to absolute values
         for i in range(0, len(melanogaster)):
             
             
             if melanogaster[i] != i + 1:
-                print melanogaster
                 location = melanogaster.index(i+1)
                 temlist = []
                 reversetemlist = []
@@ -72,19 +74,20 @@ def swap(melanogaster):
                     temlist.append(melanogaster[j])
                 for k in reversed(temlist):
                     reversetemlist.append(k)
-
+                    
+                initlist(melanogaster, temlist)
+                
                 indexx = 0
                 for l in range (len(temlist)):
                     melanogaster[i+l] = reversetemlist[indexx]
                     indexx += 1
                 swaps += 1
-            initlist(melanogaster, temlist)
+            
             
 
                 
-        print melanogaster
         print "swaps = ", swaps
-        initlist(melanogaster)
+        initlist(melanogaster, temlist)
         
                
 
