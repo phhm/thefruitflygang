@@ -77,5 +77,11 @@ def Consecutive_genes_check(breakpoints_list):
 	return longest_start, longest_consecutive_list_length
 
 a,b = Consecutive_genes_check(breakpoints_list)
-print Melanogaster[a:a+b]
+
+print "This is what the functions depicted above are able to do:"
+print "This is Melanogaster at the start of our Algorithm ", Melanogaster
+print "This is our list of breakpoints: ", breakpoints_list
+print "This is the amount of breakpoints we have at the start ", str(len(breakpoints_list))
+print "This is the longest consecutive gene set in our Genome ", Melanogaster[a:a+b]
+
 
