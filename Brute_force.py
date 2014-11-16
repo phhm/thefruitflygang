@@ -111,6 +111,7 @@ def brute_force(Melanogaster):
 # THIS CHOOSES 1 RANDOM SWAP, AFTER WHICH THE LIST IS REDUCED BY 1 BREAKPOINT
 print "Before 1 random swap"
 print Melanogaster
+print "this is the amount of breakpoints at this step", len(breakpoint_search(Melanogaster))
 Melanogaster = brute_force(Melanogaster)
 print "After 1 random swap:"
 print Melanogaster
