@@ -60,8 +60,8 @@ breakpoints_list = breakpoint_search(Melanogaster)
 
 def Consecutive_genes_check(breakpoints_list):
 	'''
-	Checks the list of Breakpoints and returns the shortest and largest consecutive genes:
-	returns the index of the first element of these consecutive gene sets + the length
+	Checks the list of Breakpoints and returns the largest consecutive genes set:
+	returns the index of the first element of this consecutive gene sets + the length
 	'''
 	# Searches for the biggest difference in values in the Breakpoints List
 	# It evaluates each value in the list with its previous value:
