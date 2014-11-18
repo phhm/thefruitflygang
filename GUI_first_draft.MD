@@ -1,5 +1,12 @@
 # GUI testfile for Drosophila exercise
-# Author: Riaan Zoetmulder
+# Authors:Yasper Linmans, Pieter van Dijk & Riaan Zoetmulder
+
+# Further functions to be added
+# Pause Button
+# Resume Button
+# Further Algorithms *** First create them seperately***
+# Relative distance
+# Manual control (swap numbers manually) *** Riaan Working on it***
 
 
 
@@ -9,43 +16,74 @@ import random
 # Import Tkinter library
 from Tkinter import *
 
-
-
-#reinit the list
+# FUNCTION to init the list on canvast
 def initlist(melanogaster, reversetemlist):
-    
-    w.after(0, w.delete("rectangles", "swaptangle", "text"))
-   
 
-    for i in range(0,len(melanogaster)): # 10 here can be substituted by the number of numbers.
+    # delete old list
+    w.after(0, w.delete("rectangles", "swaptangle", "text"))
+
+    # reinitialize the list on canvast
+    for i in range(0,len(melanogaster)):
+        
+        # create proper color for list
         color = "#"
         hexadecimal = str(hex(int((15* melanogaster[i])/len(melanogaster))))
         hexadecimal_edited = (3 * hexadecimal[2:])
-    
         color = color+hexadecimal_edited
 
+        # create rectangles and numbers
         w.create_rectangle(100 + i * 1000/len(melanogaster), 300, 200 + i*1000/len(melanogaster), 400,fill = color , tags = "rectangles")
         w.create_text(120 + i *1000/len(melanogaster), 350, fill = "red", text = melanogaster[i], tags = "text")
+
+    # update swapcounter
     swapscounter = "swaps =",  swaps
     var.set(swapscounter)
 
+    # initialize the sorted list (proper index)
+    initsortedlist(melanogaster)
 
+# FUNCTION for index
+def initsortedlist(melanogaster):
+
+    # initialize the index on canvas
+    for m in range(0,len(melanogaster)):
+
+        # create proper color for list
+        melanogaster_sorted= sorted(melanogaster)
+        color = "#"
+        hexadecimal = str(hex(int((15* melanogaster_sorted[m])/len(melanogaster))))
+        hexadecimal_edited = (3 * hexadecimal[2:])
+        color = color+hexadecimal_edited
+
+        # create rectangles and numbers
+        w.create_rectangle(100 + m * 1000/len(melanogaster), 500, 200 + m*1000/len(melanogaster), 600,fill = color , tags = "rectangles")
+        w.create_text(120 + m *1000/len(melanogaster), 550, fill = "red", text = melanogaster_sorted[m], tags = "text")
+        master.update_idletasks()
+    
+
+# FUNCTION to put reversed list at proper location on cavas
 def initchecker(reversetemlist, melanogaster, location, front):
+
+    # correction for mergeswap
     if front is True:
         location = location - len(reversetemlist) + 1 
 
+    # create list
     for j in range (0, len(reversetemlist)):
+        # coloring rectangles properly
         color = "#"
         hexadecimal = str(hex(int((15* reversetemlist[j])/len(melanogaster))))
         hexadecimal_edited = (3*  hexadecimal[2:] )
         color = color+hexadecimal_edited
+
+        # create rectangles of the reversedlist
         w.create_rectangle(100 +(location*1000/len(melanogaster))  + j * 1000/len(melanogaster), 400, 200 +(location*1000/len(melanogaster))+ j*1000/len(melanogaster), 500 ,fill = color , tags = "rectangles", outline= "green", width = 5)
-    
+
+    # update the tasks and sleep
     master.update_idletasks()
     time.sleep(.2)
-    
-    
-    
+
+
 def action():
     # remove button
     b.pack_forget()
@@ -61,27 +99,52 @@ def action2():
 
     # activate mergesort
     mergesort(melanogaster)
+
+# !!!!actioncall for Manual function!!!!
+#def action3():
+    # remove button
+    #b2.pack_forget()
+    #b.pack_forget()
     
+    # activate manual control
+    #manualcontrolbuttons(melanogaster)
+    
+
+# FUNCTION for calculating the absolute numbers
 def calc_absolute(melanogaster):
+    # sort the list and subtract values in actual melanogaster from sorted melanogaster
     sorted_melanogaster = sorted(melanogaster)
     absolute_number = []
-    for k in range(0, len(melanogaster)):
-        absolute_number.append[k] = sorted_melanogaster
-        w.create_text(120 + k *1000/len(melanogaster), 250, fill = "blue", text = melanogaster[i], tags = "text")
+    w.create_text(50, 250, fill ="black", text = "absolute:")
 
+    # print the absolute numbers
+    for k in range(0, len(melanogaster)):
+        absolute_number.append(sorted_melanogaster[k]- melanogaster[k])
+        w.create_text(120 + k *1000/len(melanogaster), 250, fill = "blue", text = absolute_number[k], tags = "text")
+
+#PART OF MANUAL CONTROL BUTTONS "test"
+#def reached(leftlocation, rightlocation):
+    #print leftlocation, rightlocation
+
+# FUNCTION: manual control widget
+# NOTE: !!!! Widget is not Finished!!!!
+#def manualcontrolbuttons(melanogaster):
+    #leftlocation = Entry(master).pack()
+    #rightlocation = Entry(master).pack()
+    #enter = Button(master, text = "Enter", width = 10, command = reached(leftlocation, rightlocation)).pack()
+
+    
 def swap(melanogaster):
     global swaps
     swaps = 0
     sorted_melanogaster = sorted(melanogaster)
     # while list is unsorted, execute.
     while sorted_melanogaster != melanogaster:
-        
         location = 0
         front = True
 
         # check if values corresond to absolute values
         for i in range(0, len(melanogaster)):
-            
             
             if melanogaster[i] != i + 1:
                 print melanogaster
@@ -103,11 +166,9 @@ def swap(melanogaster):
                     indexx += 1
                 swaps += 1
                 initlist(melanogaster, reversetemlist)
+                calc_absolute(melanogaster)
             
             
-            
-
-                
         print melanogaster
         print "swaps = ", swaps
         initlist(melanogaster, reversetemlist)
@@ -152,7 +213,8 @@ def mergesort(melanogaster):
 
                 swaps += 1
                 print melanogaster
-                initlist(melanogaster, stemlist)
+                initlist(melanogaster, temlist)
+                calc_absolute(melanogaster)
                 break
         
         for m in range(len(melanogaster), 0, -1):
@@ -184,6 +246,7 @@ def mergesort(melanogaster):
                 print melanogaster
                 swaps += 1
                 initlist(melanogaster, temlist)
+                calc_absolute(melanogaster)
                 break
     print "swaps = ", swaps
         
@@ -193,6 +256,7 @@ def mergesort(melanogaster):
 print "THIS PROGRAM CALCULATES THE NUMBER OF DNA SWAPS NECESSARY"
 use_own_list = raw_input ("Would you like to use your own list of random numbers?: ")
 
+# use your own list
 if use_own_list == "y":
     listsize = 0
     while listsize <= 0:
@@ -201,15 +265,14 @@ if use_own_list == "y":
     melanogaster = [i for i in range(1, listsize + 1)]
     random.shuffle(melanogaster)
 
-
+# use the default Melanogaster list
 else:
     melanogaster = [23,1,2,11,24,22,19,6,10,7,25,20,5,8,18,12,13,14,15,16,17,21,3,4,9]
-    #melanogaster = [22, 14, 2, 3, 21, 12, 20, 23, 13, 10, 1, 5, 16, 25, 17, 4, 18, 8, 19, 15, 24, 9, 7, 6, 11]
 
 # make canvas pretty
 master = Tk()
 master.title("Drosophila DNA splicing machine")
-w = Canvas(master, width=1200, height=600, background= "white")
+w = Canvas(master, width=1200, height=800, background= "white")
 w.pack()
 
 # counter
@@ -221,13 +284,19 @@ l.pack()
 # update canvas
 w.update()
 
-# functional button
+# Brute force button
 b = Button(master, text="Brute force", command=action)
 b.pack()
+
+# Merge sort button
 b2 = Button(master, text= "Merge sort", command = action2)
 b2.pack()
 
+# Manual control button
+#manual = Button(master, text ="Manual Control", command = action3).pack()
+
 
 mainloop()
+
 
 
