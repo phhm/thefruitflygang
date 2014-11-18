@@ -100,6 +100,8 @@ def brute_force(Melanogaster):
 		i = breakpoint_search(New_melanogaster)
 		j = breakpoint_search(Melanogaster) 
 
+
+
 		if len(i) < len(j):
 			String_hash = ''.join(str(x) for x in New_melanogaster)
 			List_of_states.append(String_hash)
@@ -108,24 +110,25 @@ def brute_force(Melanogaster):
 				return Melanogaster
 
 
-# THIS CHOOSES 1 RANDOM SWAP, AFTER WHICH THE LIST IS REDUCED BY 1 BREAKPOINT
-print "Before 1 random swap"
-print Melanogaster
-print "this is the amount of breakpoints at this step", len(breakpoint_search(Melanogaster))
-Melanogaster = brute_force(Melanogaster)
-print "After 1 random swap:"
-print Melanogaster
-print "this is the amount of breakpoints at this step", len(breakpoint_search(Melanogaster))
+# # THIS CHOOSES 1 RANDOM SWAP, AFTER WHICH THE LIST IS REDUCED BY 1 BREAKPOINT
+# print "Before 1 random swap"
+# print Melanogaster
+# print "this is the amount of breakpoints at this step", len(breakpoint_search(Melanogaster))
+# Melanogaster = brute_force(Melanogaster)
+# print "After 1 random swap:"
+# print Melanogaster
+# print "this is the amount of breakpoints at this step", len(breakpoint_search(Melanogaster))
 
 
+# #THIS IS A BRUTE FORCE METHOD: COMMENT THE FOLLOWING LINES OUT TO RUN IT
+count = 0
 
-# THIS IS A BRUTE FORCE METHOD: COMMENT THE FOLLOWING LINES OUT TO RUN IT
-# count = 0
+while Melanogaster != sorted(Melanogaster):
+	Melanogaster = brute_force(Melanogaster)
+	print Melanogaster
+	count += 1
+	if count >= 30:
+		break
 
-# while Melanogaster != sorted(Melanogaster):
-# 	Melanogaster = Pancake_swap_solving_breakpoints(Melanogaster)
-# 	count += 1
-# 	if count >= 25:
-# 		break
 
 
