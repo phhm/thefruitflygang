@@ -41,4 +41,5 @@ def breakpoint_search(List):
 Where_are_the_breakpoints = breakpoint_search(Melanogaster)
 print "this is where are breakpoints are located: ", Where_are_the_breakpoints
 print "This is how many breakpoints we have now: " + str(len(Where_are_the_breakpoints))
+print Where_are_the_breakpoints
 

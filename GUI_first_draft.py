@@ -42,7 +42,7 @@ def initchecker(reversetemlist, melanogaster, location, front):
         w.create_rectangle(100 +(location*1000/len(melanogaster))  + j * 1000/len(melanogaster), 400, 200 +(location*1000/len(melanogaster))+ j*1000/len(melanogaster), 500 ,fill = color , tags = "rectangles", outline= "green", width = 5)
     
     master.update_idletasks()
-    time.sleep(.2)
+    time.sleep(.8)
     
     
     
@@ -152,7 +152,7 @@ def mergesort(melanogaster):
 
                 swaps += 1
                 print melanogaster
-                initlist(melanogaster, stemlist)
+                initlist(melanogaster, temlist)
                 break
         
         for m in range(len(melanogaster), 0, -1):
