@@ -1,6 +1,8 @@
 import math
 from Queue import PriorityQueue
 
+
+
 Melanogaster = [23,1,2,11,24,22,19,6,10,7,25,20,5,8,18,12,13,14,15,16,17,21,3,4,9]
 
 def Swap(List, left_border, right_border):
@@ -234,27 +236,13 @@ def Distance(Melanogaster):
 	Distance = len(a)
 	return Distance
 
-def MakePriorityQueue(Melanogaster):
-	ideal_swap, swap = possible_swap_Lists(Melanogaster)
+def MakePriorityQueue(Melanogaster, countah):
 	queue = PriorityQueue()
-	distance = Distance(Melanogaster)
-	if len(ideal_swap) >= 1:
-		for e in ideal_swap:
-			queue.put((distance- 2, e))
-	if len(swap) >= 1:
-		for e in swap:
-			queue.put((distance - 1, e))
+	alles = All_Swaps(Melanogaster, countah, Punishment)
+	for each in alles:
+		queue.put(each)
 	return queue
 
-# UNCOMMENT FOR MAGIC
-# # To show that the priority queue works
-# print possible_swap_Lists(Melanogaster)
-# q = MakePriorityQueue(Melanogaster)
-# print q.get(True)
-# print q.get(True)
-# print q.get(True)
-# print q.get(True)
-# print q.get(True)
 
 def Define_swap_Position(PriorityQueue):
 	first_in_line = PriorityQueue.get(True)
@@ -284,5 +272,98 @@ def Swapping_Astar(Melanogaster):
 
 List_of_states = []
 
-while Melanogaster != sorted(Melanogaster):
-	Melanogaster = Swapping_Astar(Melanogaster)
+def All_Swaps(Melanogaster, countah, Punishment):
+
+
+	a = 1
+	b = 2
+	All_Swaps = []
+
+	while True:
+
+		if Melanogaster.index(a)<Melanogaster.index(b):
+			New_melanogaster = Swap(Melanogaster, a, b)
+		else:
+			New_melanogaster = Swap(Melanogaster, b, a)
+
+		All_Swaps.append(New_melanogaster)
+		if b < 25: 
+			b += 1
+		elif b >= 25:
+			if a < 25:
+				a += 1
+				b = 1
+			else:
+				break
+	
+	values = []
+	All_Swaps_single = []
+	for e in All_Swaps:
+		if e not in All_Swaps_single:
+			All_Swaps_single.append(e)
+
+	for e in All_Swaps_single:
+		values.append((Distance(e) + countah + Punishment, e,Distance(e), countah))
+	return values
+
+def Delta_Punish(delta):
+	if delta == 3:
+		return 0
+	if delta == -2:
+		return 1
+	if delta == -1:
+		return 2
+	if delta == 0:
+		return 3
+	if delta == 1:
+		return 4
+	if delta == 2:
+		return 5
+
+
+def Main(Melanogaster, first_time_countah):
+	countah = 1
+	while Melanogaster != sorted(Melanogaster):
+		print Melanogaster
+		q = MakePriorityQueue(Melanogaster, countah)
+		previous = q.get(True)
+		print previous
+		if first_time_countah == 1:
+			countah = 1
+			delta = 3
+			first_time_countah = 0
+		else: 
+			countah = previous[3] + 1
+			previous_Breakpoints = previous[2]
+			current_Breakpoints = len(breakpoint_search(Melanogaster))
+			delta = previous_Breakpoints - current_Breakpoints
+		Melanogaster = previous[1]
+		Punishment = Delta_Punish(delta)
+		All_Swaps(Melanogaster, countah, Punishment)
+		print Punishment
+
+		
+	print Melanogaster
+
+
+delta = 3
+Punishment = 0
+# countah = 0
+first_time_countah = 1
+Main(Melanogaster, first_time_countah)
+
+
+
+
+# UNCOMMENT FOR MAGIC
+# # To show that the priority queue works
+# print possible_swap_Lists(Melanogaster)
+# q = MakePriorityQueue(Melanogaster)
+# print q.get(True)
+# print q.get(True)
+# print q.get(True)
+# print q.get(True)
+# print q.get(True)
+
+# while Melanogaster != sorted(Melanogaster):
+# 	Melanogaster = Swapping_Astar(Melanogaster)
