@@ -126,6 +126,7 @@ def possible_swap_Lists(Melanogaster):
 	less in the new list of Melanogaster: returns new list. Hashes every state, checks for 
 	repetetive steps.
 	'''
+	SwapNULL_list = []
 
 	Ideal_swap_list = []
 	Swap1_list = []
@@ -195,6 +196,38 @@ def possible_swap_Lists(Melanogaster):
 						a += 1
 						b = 1
 					elif a == 25:
+						break
+
+			if Melanogaster.index(a)<Melanogaster.index(b):
+				New_melanogaster = Swap(Melanogaster, a, b)
+			else:
+				New_melanogaster = Swap(Melanogaster, b, a)
+
+			i = breakpoint_search(New_melanogaster)
+			j = breakpoint_search(Melanogaster) 
+		while True:
+			if len(i) == len(j):
+				SwapNULL_list.append([a,b])
+				if b < 25: 
+					b += 1
+				elif b == 25:
+					if a < 25:
+						a += 1
+						b = 1
+					elif a == 25:
+						a = 1
+						b = 2
+						break
+			else:
+				if b < 25: 
+					b += 1
+				elif b == 25:
+					if a < 25:
+						a += 1
+						b = 1
+					elif a == 25:
+						a = 1
+						b = 2
 						return_state = 1
 						break
 
@@ -207,6 +240,7 @@ def possible_swap_Lists(Melanogaster):
 			j = breakpoint_search(Melanogaster) 
 		if return_state == 1:
 			break
+
 
 	Ideal_swap_list_checked_for_doubles = []
 	for e in Ideal_swap_list:
@@ -221,7 +255,14 @@ def possible_swap_Lists(Melanogaster):
 			Swap1_list_checked_for_doubles.append(combination)
 
 
-	return Ideal_swap_list_checked_for_doubles, Swap1_list_checked_for_doubles
+	normal_swap= []
+	for e in SwapNULL_list:
+		combination = sorted(e)
+		if combination not in normal_swap:
+			normal_swap.append(combination)
+
+
+	return Ideal_swap_list_checked_for_doubles, Swap1_list_checked_for_doubles, normal_swap
 
 def Hash(Melanogaster):
 	hashed = 0
@@ -235,7 +276,7 @@ def Distance(Melanogaster):
 	return Distance
 
 def MakePriorityQueue(Melanogaster):
-	ideal_swap, swap = possible_swap_Lists(Melanogaster)
+	ideal_swap, swap, extra = possible_swap_Lists(Melanogaster)
 	queue = PriorityQueue()
 	distance = Distance(Melanogaster)
 	if len(ideal_swap) >= 1:
@@ -244,6 +285,9 @@ def MakePriorityQueue(Melanogaster):
 	if len(swap) >= 1:
 		for e in swap:
 			queue.put((distance - 1, e))
+	if len(extra) >=1:
+		for e in extra:
+			queue.put((distance, e))
 	return queue
 
 # UNCOMMENT FOR MAGIC
