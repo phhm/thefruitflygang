@@ -236,9 +236,9 @@ def Distance(Melanogaster):
 	Distance = math.ceil(len(a)/2)
 	return Distance
 
-def MakePriorityQueue(Melanogaster, countah):
+def MakePriorityQueue(Melanogaster, countah, Max):
 	queue = PriorityQueue()
-	alles = All_Swaps(Melanogaster, countah)
+	alles = All_Swaps(Melanogaster, countah, Max)
 	for each in alles:
 		queue.put(each)
 	return queue
@@ -270,7 +270,7 @@ def Swapping_Astar(Melanogaster):
 		return Melanogaster
 
 
-def All_Swaps(Melanogaster, countah):
+def All_Swaps(Melanogaster, countah, Max):
 
 
 	a = 1
@@ -285,10 +285,10 @@ def All_Swaps(Melanogaster, countah):
 			New_melanogaster = Swap(Melanogaster, b, a)
 
 		All_Swaps.append(New_melanogaster)
-		if b < 25: 
+		if b < Max: 
 			b += 1
-		elif b >= 25:
-			if a < 25:
+		elif b >= Max:
+			if a < Max:
 				a += 1
 				b = 1
 			else:
@@ -326,8 +326,9 @@ def Main(Melanogaster):
 
 
 	countah = 1
+	Max = len(Melanogaster)
 	first_time_countah = 1
-	q = MakePriorityQueue(Melanogaster, countah)
+	q = MakePriorityQueue(Melanogaster, countah, Max)
 	while Melanogaster != sorted(Melanogaster):
 		print Melanogaster
 		previous = q.get(True)
@@ -339,7 +340,7 @@ def Main(Melanogaster):
 			countah = previous[3] + 1
 		Melanogaster = previous[1]
 		print Melanogaster
-		a = All_Swaps(Melanogaster, countah)
+		a = All_Swaps(Melanogaster, countah, Max)
 		for each in a:
 			q.put(each)
 
