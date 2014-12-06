@@ -270,8 +270,6 @@ def Swapping_Astar(Melanogaster):
 		return Melanogaster
 
 
-List_of_states = []
-
 def All_Swaps(Melanogaster, countah):
 
 
@@ -300,7 +298,9 @@ def All_Swaps(Melanogaster, countah):
 	All_Swaps_single = []
 	for e in All_Swaps:
 		if e not in All_Swaps_single:
-			All_Swaps_single.append(e)
+			if Hash(e) not in List_of_states:
+				All_Swaps_single.append(e)
+				List_of_states.append(Hash(e))
 
 	for e in All_Swaps_single:
 		values.append((Distance(e) + countah, e,Distance(e), countah))
@@ -320,6 +320,7 @@ def Delta_Punish(delta):
 	if delta == 2:
 		return 5
 
+List_of_states = []
 
 def Main(Melanogaster):	
 
