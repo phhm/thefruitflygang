@@ -120,6 +120,42 @@ def Strips_pos_or_neg(strip_list):
 				break
 	return decreasing_strip, increasing_strip
 
+def update(negatives, Melanogaster):
+
+	negatives_single_list = []
+	for e in negatives:
+		for element in e:
+			negatives_single_list.append(element)
+
+	c = len(Melanogaster)
+	d = range(c+1)
+	e = d[1:]
+
+	swap_list = e[:]
+	for e in negatives_single_list:
+		if e in swap_list:
+			swap_list.remove(e)
+
+	acount = 0
+	bcount = 0
+	a = swap_list[acount]
+	b = swap_list[bcount]
+	swaps = []
+
+	while True:
+		if bcount < len(swap_list) -1: 
+			bcount += 1
+			b = swap_list[bcount]
+		elif bcount >= len(swap_list) -1:
+			if acount < len(swap_list) -1:
+				acount += 1
+				a = swap_list[acount]
+				bcount = 0
+				b = swap_list[bcount]
+			elif acount >= len(swap_list) -1:
+				break
+		swaps.append([a,b])
+	return swaps
 
 
 def possible_swap_Lists(Melanogaster):

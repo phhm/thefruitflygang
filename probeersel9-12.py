@@ -225,132 +225,15 @@ def possible_swap_Lists(Melanogaster):
 
 	return Ideal_swap_list_checked_for_doubles, Swap1_list_checked_for_doubles
 
-def Hash(Melanogaster):
-	hashed = 0
-	for e in Melanogaster:
-		hashed += e * Melanogaster.index(e)
-	return hashed
+dictionary = {}
+def Hash(Melanogaster,layer):
+	hashed = tuple(Melanogaster)
+	dictionary[hashed] = layer
 
-hashed1 = set()
-hashed2 = set()
-hashed3 = set()
-hashed4 = set()
-hashed5 = set()
-hashed6 = set()
-hashed7 = set()
-hashed8 = set()
-hashed9 = set()
-hashed10 = set()
-hashed11 = set()
-hashed12 = set()
-hashed13 = set()
-hashed14 = set()
 
 def DefineHash(Melanogaster, layer):
 	if layer == 1:
 		hashed1.add(tuple(Melanogaster))
-	if layer == 2:
-		hashed2.add(tuple(Melanogaster))
-	if layer == 3:
-		hashed3.add(tuple(Melanogaster))
-	if layer == 4:
-		hashed4.add(tuple(Melanogaster))
-	if layer == 5:
-		hashed5.add(tuple(Melanogaster))
-	if layer == 6:
-		hashed6.add(tuple(Melanogaster))
-	if layer == 7:
-		hashed7.add(tuple(Melanogaster))
-	if layer == 8:
-		hashed8.add(tuple(Melanogaster))
-	if layer == 9:
-		hashed9.add(tuple(Melanogaster))
-	if layer == 10:
-		hashed10.add(tuple(Melanogaster))
-	if layer == 11:
-		hashed11.add(tuple(Melanogaster))
-	if layer == 12:
-		hashed12.add(tuple(Melanogaster))
-	if layer == 13:
-		hashed13.add(tuple(Melanogaster))
-	if layer == 14:
-		hashed14.add(tuple(Melanogaster))
-
-
-def checkhash(Melanogaster, layer):
-	if layer == 1:
-		if tuple(Melanogaster) in hashed1: 
-			return True
-		else:
-			return False
-	elif layer == 2:
-		if tuple(Melanogaster) in hashed2: 
-			return True
-		else:
-			return False
-	elif layer == 3:
-		if tuple(Melanogaster) in hashed3: 
-			return True
-		else:
-			return False
-	elif layer == 4:
-		if tuple(Melanogaster) in hashed4: 
-			return True
-		else:
-			return False
-	elif layer == 5:
-		if tuple(Melanogaster) in hashed5: 
-			return True
-		else:
-			return False
-	elif layer == 6:
-		if tuple(Melanogaster) in hashed6: 
-			return True
-		else:
-			return False
-	elif layer == 7:
-		if tuple(Melanogaster) in hashed7: 
-			return True
-		else:
-			return False
-	elif layer == 8:
-		if tuple(Melanogaster) in hashed8: 
-			return True
-		else:
-			return False
-	elif layer == 9:
-		if tuple(Melanogaster) in hashed9: 
-			return True
-		else:
-			return False
-	elif layer == 10:
-		if tuple(Melanogaster) in hashed10: 
-			return True
-		else:
-			return False
-	elif layer == 11:
-		if tuple(Melanogaster) in hashed11: 
-			return True
-		else:
-			return False
-	elif layer == 12:
-		if tuple(Melanogaster) in hashed12: 
-			return True
-		else:
-			return False
-	elif layer == 13:
-		if tuple(Melanogaster) in hashed13: 
-			return True
-		else:
-			return False
-	elif layer == 14:			
-		if tuple(Melanogaster) in hashed14: 
-			return True
-		else:
-			return False
-	else:
-		return False
-
 
 
 def Distance(Melanogaster):
@@ -371,26 +254,6 @@ def Define_swap_Position(PriorityQueue):
 	a = first_in_line[1][0]
 	b = first_in_line[1][1]
 	return a,b
-
-	
-def Swapping_Astar(Melanogaster):
-
-	queue = MakePriorityQueue(Melanogaster)
-	i, j = Define_swap_Position(queue)
-
-
-	if Melanogaster.index(i) < Melanogaster.index(j):
-		New_melanogaster = Swap(Melanogaster, i, j)
-	else:
-		New_melanogaster = Swap(Melanogaster, j, i)
-
-	hashed = Hash(New_melanogaster)
-	if hashed not in List_of_states:
-		List_of_states.append(hashed)
-		Melanogaster = New_melanogaster
-		print Melanogaster
-		return Melanogaster
-
 
 List_of_states = []
 
@@ -462,37 +325,42 @@ def All_Swaps(Melanogaster, countah):
 	All_Swaps_single = []
 	for e in All_Swaps:
 		if e not in All_Swaps_single:
-			if checkhash(e, countah) == False:
+			if tuple(e) not in dictionary:
 				All_Swaps_single.append(e)
-				DefineHash(e, countah)
+				Hash(e, countah)
+			if tuple(e) in dictionary:
+				other_layer = dictionary.get(tuple(e))
+				if other_layer > countah:
+					dictionary[countah] = dictionary.pop(tuple(e))
+					All_Swaps_single.append(e)
 
 	for e in All_Swaps_single:
 		values.append((Distance(e) + countah, e,Distance(e), countah))
 	return values
 
-def Delta_Punish(delta):
-	if delta == 3:
-		return 0
-	if delta == -2:
-		return 1
-	if delta == -1:
-		return 2
-	if delta == 0:
-		return 3
-	if delta == 1:
-		return 4
-	if delta == 2:
-		return 5
+def queue_get_all(q, MAX_QUEUE):
+	items = []
+	maxItemsToRetreive = MAX_QUEUE
+	for numOfItemsRetrieved in range(0, maxItemsToRetreive):
+		try:
+			if numOfItemsRetrieved == maxItemsToRetreive:
+				break
+			items.append(q.get_nowait())
+		except Empty, e:
+			break
+	return items
 
 
 def Main(Melanogaster):	
-
-	counterr = 0
+	MAX_QUEUE = 0
 	countah = 1
 	first_time_countah = 1
 	q = MakePriorityQueue(Melanogaster, countah)
 	while Melanogaster != sorted(Melanogaster):
+		if MAX_QUEUE < 100000:
+			MAX_QUEUE += 20
 		previous = q.get(True)
+		print previous, MAX_QUEUE
 		if first_time_countah == 1:
 			countah = 1
 			first_time_countah = 0
@@ -502,8 +370,10 @@ def Main(Melanogaster):
 		a = All_Swaps(Melanogaster, countah)
 		for each in a:
 			q.put(each)
-			counterr += 1
-		print counterr
-
+		if MAX_QUEUE >= 100000:
+			first_part = queue_get_all(q, MAX_QUEUE)
+			q = PriorityQueue()
+			for each in first_part:
+				q.put(each)
 		
 Main(Melanogaster)
