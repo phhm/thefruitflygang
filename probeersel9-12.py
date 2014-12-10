@@ -344,9 +344,8 @@ def All_Swaps(Melanogaster, countah):
 			# 		dictionary[countah] = dictionary.pop(tuple(e))
 			# 		All_Swaps_single.append(e)
 
-	penalty_for_2 = math.floor(countah/2) * 10
 	for e in All_Swaps_single:
-		values.append((Distance(e) + countah + penalty_for_2, e,Distance(e), countah))
+		values.append((Distance(e) + countah, e,Distance(e), countah))
 	return values
 
 def queue_get_all(q, MAX_QUEUE):
