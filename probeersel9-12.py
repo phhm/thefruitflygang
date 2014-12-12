@@ -4,21 +4,20 @@ from Queue import PriorityQueue
 
 
 Melanogaster = [23,1,2,11,24,22,19,6,10,7,25,20,5,8,18,12,13,14,15,16,17,21,3,4,9]
+sorted_Melanogaster = sorted(Melanogaster)
+unsorted_Melanogaster = [23,1,2,11,24,22,19,6,10,7,25,20,5,8,18,12,13,14,15,16,17,21,3,4,9]
 
 def Swap(List, left_border, right_border):
 	'''
 	Swaps a sequence of List elements between the
 	left_border and right_border
 	'''
-
 	i = List.index(left_border)
 	j = List.index(right_border)
 
 	templist = []
-
 	for number in reversed(List[i:j+1]):
 		templist.append(number)
-
 	return List[:i] + templist + List[j+1:]
 
 
@@ -27,7 +26,6 @@ def breakpoint_search(List):
 	Function to determine Breakpoint positions.
 	Breakpoints are returned in a list containing each Breakpoint.
 	'''
-
 	# Creating borders to check for Breakpoints before the first, and behind the last element.
 	start = min(List) - 1
 	end = max(List) + 1
@@ -60,7 +58,6 @@ def breakpoint_search(List):
 
 	return Breakpoints
 
-
 def Strips(breakpoints_list, List):
 	'''
 	Checks the list of Breakpoints and returns all the strips inside the Melanogaster sequence:
@@ -69,7 +66,6 @@ def Strips(breakpoints_list, List):
 	# evaluates each value in the breakpoint_list with its previous value:
 	# If breakpoints list is: [1,2,5], this will return [1,3] because 2-1=1 and 5-2=3
 	compare_with_previous = [j-i for i, j in zip(breakpoints_list[:-1], breakpoints_list[1:])]
-
 
 	strips = []
 	index = 0
@@ -119,8 +115,6 @@ def Strips_pos_or_neg(strip_list):
 				first_number = 0
 				break
 	return decreasing_strip, increasing_strip
-
-
 
 def possible_swap_Lists(Melanogaster):
 	'''
@@ -232,7 +226,7 @@ def Hash(Melanogaster,layer):
 
 def unique(Melanogaster, layer):
 	if Melanogaster in dictionary:
-		if layer < dictionary[Melanogaster]:
+		if layer <= dictionary[Melanogaster]:
 			dictionary[Melanogaster] = layer
 			return True
 		else:
@@ -244,7 +238,6 @@ def unique(Melanogaster, layer):
 def DefineHash(Melanogaster, layer):
 	if layer == 1:
 		hashed1.add(tuple(Melanogaster))
-
 
 def Distance(Melanogaster):
 	a = breakpoint_search(Melanogaster)
@@ -258,7 +251,6 @@ def MakePriorityQueue(Melanogaster, countah):
 		queue.put(each)
 	return queue
 
-
 def Define_swap_Position(PriorityQueue):
 	first_in_line = PriorityQueue.get(True)
 	a = first_in_line[1][0]
@@ -266,7 +258,6 @@ def Define_swap_Position(PriorityQueue):
 	return a,b
 
 List_of_states = []
-
 
 def update(negatives, Melanogaster):
 
@@ -345,13 +336,13 @@ def All_Swaps(Melanogaster, countah):
 			# 		All_Swaps_single.append(e)
 
 	for e in All_Swaps_single:
-		values.append((Distance(e) + countah, e,Distance(e), countah))
+		values.append((Distance(e) + countah, e,Distance(e), countah, Melanogaster))
 	return values
 
 def queue_get_all(q, MAX_QUEUE):
 	items = []
-	MAX_QUEUE = 10
-	maxItemsToRetreive = 10 
+	MAX_QUEUE = 100
+	maxItemsToRetreive = 100
 	for numOfItemsRetrieved in range(0, maxItemsToRetreive):
 		try:
 			if numOfItemsRetrieved == maxItemsToRetreive:
@@ -365,11 +356,17 @@ def queue_get_all(q, MAX_QUEUE):
 def Main(Melanogaster):	
 	MAX_QUEUE = 0
 	countah = 1
+	answers = 0
+	found_answers = []
+	all_states = {}
 	first_time_countah = 1
 	q = MakePriorityQueue(Melanogaster, countah)
-	while Melanogaster != sorted(Melanogaster):
+	while Melanogaster != sorted_Melanogaster and answers != 5:
+		
 		previous = q.get(True)
-		print previous, MAX_QUEUE
+		all_states[str(previous[1])] = previous[4]
+
+		# print previous, MAX_QUEUE
 		if first_time_countah == 1:
 			countah = 1
 			first_time_countah = 0
@@ -381,12 +378,38 @@ def Main(Melanogaster):
 		for each in a:
 			q.put(each)
 			MAX_QUEUE += 1
-		if MAX_QUEUE >= 3000:
+		if MAX_QUEUE >= 500:
 			first_part,b = queue_get_all(q, MAX_QUEUE)
 			q = PriorityQueue()
 			MAX_QUEUE = b
 			for each in first_part:
 				q.put(each)
 			first_part = []
+		# print previous[3]
+
+		if Melanogaster == sorted_Melanogaster and str(str(previous[1]) + str(previous[4])) not in found_answers:
+			print "Answers = ", answers
+			x = 1
+			one_before_present = all_states[str(previous[1])]
+			print Melanogaster, " Final Result!!"
+			while one_before_present:
+				print one_before_present, "All states Previous", x
+				one_before_present = all_states.get(str(one_before_present), None)
+				x += 1
+			found_answers.append(str(previous[1]) + str(previous[4]))
+			countah = 1
+			first_time_countah = 1
+			Melanogaster = unsorted_Melanogaster
+			answers += 1
+			one_before_present = [] 
+			all_states = {}
+			MAX_QUEUE = 0
+			q = MakePriorityQueue(Melanogaster, countah)
+
+
+
 		
+
+
+	
 Main(Melanogaster)
