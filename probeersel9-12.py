@@ -366,6 +366,7 @@ def Main(Melanogaster):
 		previous = q.get(True)
 		all_states[str(previous[1])] = previous[4]
 
+
 		# print previous, MAX_QUEUE
 		if first_time_countah == 1:
 			countah = 1
@@ -377,9 +378,10 @@ def Main(Melanogaster):
 		all_states[str(previous[1])] = previous[4]
 		a = All_Swaps(Melanogaster, countah)
 		for each in a:
-			q.put(each)
-			MAX_QUEUE += 1
-		if MAX_QUEUE >= 300:
+			if each[0] <= previous[0] + 4:
+				q.put(each)
+				MAX_QUEUE += 1
+		if MAX_QUEUE >= 500:
 			first_part,b = queue_get_all(q, MAX_QUEUE)
 			q = PriorityQueue()
 			MAX_QUEUE = b
