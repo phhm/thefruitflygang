@@ -10,7 +10,7 @@ genome = [3, 9, 10, 12, 15, 11, 2, 1, 8, 7, 6, 4, 5, 13, 14]
 easy = [5, 3, 4, 1, 2]
 
 # Should convert genome to tuple
-genome = tuple(easy)
+genome = tuple(genome)
 
 
 class GenomeObject(object):
