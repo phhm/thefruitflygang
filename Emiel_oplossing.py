@@ -255,7 +255,7 @@ def a_star(genome):
 
 
 start = time.time()
-object = breadthFirst(genome)
+object = a_star(genome)
 print "Time:", time.time() - start
 
 history = []
