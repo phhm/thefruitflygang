@@ -361,7 +361,7 @@ def Main(Melanogaster):
 	all_states = {}
 	first_time_countah = 1
 	q = MakePriorityQueue(Melanogaster, countah)
-	while Melanogaster != sorted_Melanogaster and answers != 5:
+	while answers != 10:
 		
 		previous = q.get(True)
 		all_states[str(previous[1])] = previous[4]
@@ -374,11 +374,12 @@ def Main(Melanogaster):
 			countah = previous[3] + 1
 
 		Melanogaster = previous[1]
+		all_states[str(previous[1])] = previous[4]
 		a = All_Swaps(Melanogaster, countah)
 		for each in a:
 			q.put(each)
 			MAX_QUEUE += 1
-		if MAX_QUEUE >= 500:
+		if MAX_QUEUE >= 300:
 			first_part,b = queue_get_all(q, MAX_QUEUE)
 			q = PriorityQueue()
 			MAX_QUEUE = b
@@ -387,7 +388,9 @@ def Main(Melanogaster):
 			first_part = []
 		# print previous[3]
 
-		if Melanogaster == sorted_Melanogaster and str(str(previous[1]) + str(previous[4])) not in found_answers:
+		no_retry = str(str(previous[1]) + str(previous[4]))
+
+		if Melanogaster == sorted_Melanogaster and no_retry not in found_answers:
 			print "Answers = ", answers
 			x = 1
 			one_before_present = all_states[str(previous[1])]
@@ -401,15 +404,10 @@ def Main(Melanogaster):
 			first_time_countah = 1
 			Melanogaster = unsorted_Melanogaster
 			answers += 1
-			one_before_present = [] 
+			one_before_present = None 
 			all_states = {}
-			MAX_QUEUE = 0
+			MAX_QUEUE =0
 			q = MakePriorityQueue(Melanogaster, countah)
+			print answers
 
-
-
-		
-
-
-	
 Main(Melanogaster)
