@@ -377,6 +377,8 @@ def Main(Melanogaster):
 		Melanogaster = previous[1]
 		all_states[str(previous[1])] = previous[4]
 		a = All_Swaps(Melanogaster, countah)
+		print a
+		break
 		for each in a:
 			if each[0] <= previous[0] + 4:
 				q.put(each)

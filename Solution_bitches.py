@@ -1,4 +1,11 @@
-Melanogaster = [23,1,2,11,24,22,19,6,10,7,25,20,5,8,18,12,13,14,15,16,17,21,3,4,9]
+import random
+
+x = input("Give a numbaaa: ")
+a = random.sample(range(1, x+1), x)
+
+# Melanogaster = [23,1,2,11,24,22,19,6,10,7,25,20,5,8,18,12,13,14,15,16,17,21,3,4,9]
+Melanogaster = a
+sorted_Melanogaster = sorted(Melanogaster)
 
 class Sequence(object):
 	def __init__(self, sequence, parent=None):
@@ -7,7 +14,7 @@ class Sequence(object):
 		self.max = max(sequence)
 		self.min = min(sequence)
 		self.length = len(sequence)
-		self.goal = range(self.min, self.max + 1)
+		self.goal = sorted_Melanogaster
 		self.breakpoints, self.BPs = self.Breakpoints()
 		self.strips = self.Strips()
 		self.PossibleChildren = self.PossibleSwaps()
@@ -107,13 +114,12 @@ class Sequence(object):
 					swap_list.append((i,j))
 		return swap_list
 
-
-
 def Breadth_first_restriction(Melanogaster):
 	start = Sequence(Melanogaster)
 
 	dictionary = {}
 	dictionary2 = {}
+	
 
 	for swap in start.PossibleChildren:
 		child = start.Swap(swap)
@@ -123,28 +129,32 @@ def Breadth_first_restriction(Melanogaster):
 			dictionary[child.BPs].append(child)
 		else:
 			dictionary[child.BPs] = [child] 
-
+	
 	while True:
-		number = 0
+		number = 4
 		minimum = min(dictionary)
 		maximum = max(dictionary)
 		if minimum == 0:
 			break
+
 		print minimum,maximum
-		dictionary2 = {}
 
 		for key in dictionary:
+			answer_list = []
 			for value in dictionary[key]:
 				parent = value
 				for swap in parent.PossibleChildren:
-					child = value.Swap(swap)
-					child = Sequence(child, parent)
+					child = parent.Swap(swap)
+					child = Sequence(child,parent)
 
 					if child.BPs in dictionary2:
 						if child.BPs <= min(dictionary2) + number:
-							dictionary2[child.BPs].append(child)
+							if child.path not in answer_list:
+								dictionary2[child.BPs].append(child)
+								answer_list.append(child.path)
 					else:
 						dictionary2[child.BPs] = [child]
+				
 
 		for key in dictionary2:
 			for value in dictionary2[key]:
@@ -160,20 +170,33 @@ def Breadth_first_restriction(Melanogaster):
 		for key in range(minimum+number+1, maximum +1):
 			dictionary.pop(key, None)
 
+	# length = len(dictionary[0])
+	# length2 = len(dictionary2[0])
+
+
+
+	# print length, "Length of dictionary"
+	# print len(answer_list), "Length of answer list"
+
+	x = 1
+	length = len(dictionary[0])
+	for i in range(0,length):
+		print "Path:", x, ":", dictionary[0][i].path
+		x += 1
+
+
+	# a= dictionary[0][0]
+
+	# history = []
+	# while a != None:
+	#     history.append(a)
+	#     a = a.parent
+
+	# history = history[::-1]
+
+	# for e in history:
+	# 	print e.sequence, "depth: ",e.depth
 	
-	a = dictionary[0][0]
-
-	history = []
-	while a != None:
-	    history.append(a)
-	    a = a.parent
-
-	history = history[::-1]
-
-	depth_counter = 0
-	for e in history:
-		print e.sequence, "depth: ",depth_counter
-		depth_counter += 1
 
 Breadth_first_restriction(Melanogaster)
 

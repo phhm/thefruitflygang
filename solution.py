@@ -65,7 +65,6 @@ for swap in children_swaps:
 	else:
 		dictionary[BPs] = [child]
 
-
 while True:
 	if min(dictionary) == 0:
 		print len(dictionary[0])
