@@ -67,15 +67,14 @@ for swap in children_swaps:
 
 
 while True:
-	print min(dictionary), max(dictionary), "start"
 	if min(dictionary) == 0:
-		print dictionary
+		print len(dictionary[0])
 		break
+	print min(dictionary), max(dictionary), "start"
 	dictionary2 = {}
 	number = 0
 
 	for key in dictionary:
-		print key, "dict 1"
 		for value in dictionary[key]:
 			for swap in children_swaps:
 				child = Swap(value, swap)
@@ -89,7 +88,6 @@ while True:
 					dictionary2[BPs] = [child]
 
 	for key in dictionary2:
-		print key, "dict 2"
 		for value in dictionary2[key]:
 			BPs = len(breakpoint_search(value))
 			if BPs in dictionary:
@@ -104,17 +102,5 @@ while True:
 
 	for key in range(minimum+number+1, maximum +1):
 		dictionary.pop(key, None)
-
-
-# counter = 0
-# for e in range(15,18+1):
-# 	print len(dictionary[e]), e
-# 	counter += len(dictionary[e])
-# print counter
-
-# for f in range(15,18+1):
-# 	print (float(len(dictionary[f]))/counter)*100, f
-
-
 
 
