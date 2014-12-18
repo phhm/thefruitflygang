@@ -1,10 +1,5 @@
-import random
+Melanogaster = [23,1,2,11,24,22,19,6,10,7,25,20,5,8,18,12,13,14,15,16,17,21,3,4,9]
 
-x = input("Give a numbaaa: ")
-a = random.sample(range(1, x+1), x)
-
-# Melanogaster = [23,1,2,11,24,22,19,6,10,7,25,20,5,8,18,12,13,14,15,16,17,21,3,4,9]
-Melanogaster = a
 sorted_Melanogaster = sorted(Melanogaster)
 
 class Sequence(object):
@@ -114,7 +109,7 @@ class Sequence(object):
 					swap_list.append((i,j))
 		return swap_list
 
-def Breadth_first_restriction(Melanogaster):
+def Beamsearch(Melanogaster):
 	start = Sequence(Melanogaster)
 
 	dictionary = {}
@@ -131,7 +126,7 @@ def Breadth_first_restriction(Melanogaster):
 			dictionary[child.BPs] = [child] 
 	
 	while True:
-		number = 4
+		number = 0
 		minimum = min(dictionary)
 		maximum = max(dictionary)
 		if minimum == 0:
@@ -170,33 +165,24 @@ def Breadth_first_restriction(Melanogaster):
 		for key in range(minimum+number+1, maximum +1):
 			dictionary.pop(key, None)
 
+	# x = 1
 	# length = len(dictionary[0])
-	# length2 = len(dictionary2[0])
+	# for i in range(0,length):
+	# 	print "Path:", x, ":", dictionary[0][i].path
+	# 	x += 1
 
 
+	a= dictionary[0][0]
 
-	# print length, "Length of dictionary"
-	# print len(answer_list), "Length of answer list"
+	history = []
+	while a != None:
+	    history.append(a)
+	    a = a.parent
 
-	x = 1
-	length = len(dictionary[0])
-	for i in range(0,length):
-		print "Path:", x, ":", dictionary[0][i].path
-		x += 1
+	history = history[::-1]
 
-
-	# a= dictionary[0][0]
-
-	# history = []
-	# while a != None:
-	#     history.append(a)
-	#     a = a.parent
-
-	# history = history[::-1]
-
-	# for e in history:
-	# 	print e.sequence, "depth: ",e.depth
+	for e in history:
+		print e.sequence, "depth: ",e.depth
 	
 
-Breadth_first_restriction(Melanogaster)
-
+Beamsearch(Melanogaster)
